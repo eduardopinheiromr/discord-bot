@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Discord Webhook</title>
+
+    <style>
+      .flex-col {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .w-500 {
+        width: 500px;
+      }
+
+      .mx-auto {
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="flex-col w-500 mx-auto">
+      <textarea rows="10" placeholder="Your message here"></textarea>
+      <button>Send message</button>
+    </div>
+
+    <script>
+      const button = document.querySelector('button')
+      const textarea = document.querySelector('textarea')
+
+      button.onclick = () => {
+        const message = textarea.value
+        const url =
+          'https://discord.com/api/webhooks/959615362926796851/5SYHw6kwZCpnbFydEHBHb6t8O_vjXADSNJcKCTqNxiiW5MJlobcOlVAhuLNHJM93ao32'
+        const xhr = new XMLHttpRequest()
+        xhr.open('POST', url)
+        xhr.setRequestHeader('Content-Type', 'application/json')
+        xhr.send(
+          JSON.stringify({
+            content: message,
+          })
+        )
+      }
+    </script>
+  </body>
+</html>
