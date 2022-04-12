@@ -1,5 +1,6 @@
 import client from '@config/client'
 import '@config/init'
+import { screenshot } from '@services/scrapeImage'
 import { Message, MessageCollector, WebhookClient } from 'discord.js'
 
 import messageCollector from 'src/commands/messageCollector'
@@ -7,11 +8,11 @@ import messageCollector from 'src/commands/messageCollector'
 client.on('ready', () => {
   console.log('Ready')
 
-  client.on('messageCreate', (message) => {
-    if (!message.webhookId) return
+  // client.on('messageCreate', (message) => {
+  //   if (!message.webhookId) return
 
-    console.log(message)
-  })
+  //   console.log(message)
+  // })
 
   // client.on('messageCreate', async (message) => {
   //   if (message.content !== 'test') return
@@ -42,20 +43,21 @@ client.on('ready', () => {
 
     messageCollector(collectorOptions)
   })
+  // const wcGithub = new WebhookClient({
+  //   url: 'https://discord.com/api/webhooks/959629496137437245/zBNx0xIzVcr5WUEx_8PqCgcC79NxLgichC79tavvUVwUTPH-PAyjJ7swsjVZWEwkQshd',
+  // })
 
-  client.on('webhook', (webhook) => {
-    console.log(webhook)
-  })
+  // wcGithub.send({
 
-  const wcGithub = new WebhookClient({
-    url: 'https://discord.com/api/webhooks/959629496137437245/zBNx0xIzVcr5WUEx_8PqCgcC79NxLgichC79tavvUVwUTPH-PAyjJ7swsjVZWEwkQshd',
-  })
+  // })
 
-  wcGithub.on('apiResponse', (request) => {
-    console.log('apiResponse', { request })
-  })
-
-  wcGithub.on('apiRequest', (request) => {
-    console.log('apiRequest', { request })
+  client.on('messageCreate', async (message) => {
+    if (message.author.username === 'GitHub') {
+      console.log(message.embeds[0].url)
+      await screenshot(message.embeds[0].url, (result) => {
+        message.channel.send({ files: [result.url] })
+      })
+      // message.channel.send({ files: ['https://i.imgur.com/XxxXxXX.jpg'] })
+    }
   })
 })
