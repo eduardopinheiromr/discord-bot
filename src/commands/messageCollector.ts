@@ -16,21 +16,18 @@ const messageCollector = ({
   if (message.content !== triggerText) return
 
   if (privateMessage && message.channel.type !== 'DM') return
-  console.log(message)
 
   let counter = 0
 
-  const filter = (m) => {
+  const filter = (m: Message) => {
     return m.author.id === message.author.id
   }
 
   const collector = new MessageCollector(message.channel, {
     filter,
     max: questions.length,
-    time: 1000 * 120, // 15s
+    time: 1000 * 60 * 2, // 2 minutes
   })
-
-  console.log(counter)
 
   message.channel.send(questions[counter++])
 
@@ -44,9 +41,15 @@ const messageCollector = ({
     console.log(`Collected ${collected.size} messages`)
 
     let counter = 0
-    collected.forEach((value) => {
-      console.log(questions[counter++], value.content)
+
+    const answers = collected.map((m) => {
+      return {
+        question: questions[counter++],
+        answer: m.content,
+      }
     })
+
+    console.log({ answers })
   })
 }
 

@@ -3,10 +3,11 @@ import 'dotenv/config'
 const { TOKEN } = process.env
 
 const client = new Client({
-  partials: ['CHANNEL'],
+  partials: ['CHANNEL', 'MESSAGE', 'REACTION'],
   intents: [
     Intents.FLAGS.GUILD_WEBHOOKS,
     Intents.FLAGS.DIRECT_MESSAGES,
+    Intents.FLAGS.GUILD_MEMBERS,
     Intents.FLAGS.GUILDS,
     Intents.FLAGS.GUILD_MESSAGES,
     Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
